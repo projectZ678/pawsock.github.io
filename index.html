@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>pawsocks</title>
-  
-  <!-- Google Fonts: Fuzzy Bubbles for cute bubbly style -->
+
+  <!-- Open Graph meta tags for Discord/Facebook/Twitter embed preview -->
+  <meta property="og:title" content="pawsocks" />
+  <meta property="og:description" content="we love paw socks ♡ cute cozy vibes 🐾" />
+  <meta property="og:image" content="https://i.imgur.com/YOUR_IMAGE_ID_HERE.jpg" /> <!-- ← REPLACE THIS! See instructions below -->
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pawsocks.lat" /> <!-- change to your actual domain -->
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Fuzzy Bubbles -->
   <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body, html {
       height: 100%;
       overflow: hidden;
@@ -22,8 +27,6 @@
       font-family: 'Fuzzy Bubbles', cursive;
       color: white;
     }
-
-    /* Blurred + animated background */
     .background {
       position: fixed;
       inset: 0;
@@ -32,13 +35,10 @@
       animation: bgBreath 20s infinite ease-in-out;
       z-index: 1;
     }
-
     @keyframes bgBreath {
       0%, 100% { transform: scale(1.04); }
-      50%      { transform: scale(1.10); }
+      50% { transform: scale(1.10); }
     }
-
-    /* Subtle full-page paw pattern overlay */
     .pattern-overlay {
       position: fixed;
       inset: 0;
@@ -49,13 +49,10 @@
       animation: slowFloat 80s infinite linear;
       z-index: 2;
     }
-
     @keyframes slowFloat {
-      0%   { background-position: 0 0; }
+      0% { background-position: 0 0; }
       100% { background-position: 400px 400px; }
     }
-
-    /* Click to enter overlay */
     .overlay {
       position: fixed;
       inset: 0;
@@ -67,20 +64,13 @@
       cursor: pointer;
       transition: opacity 1.2s ease;
     }
-
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
+    .overlay.hidden { opacity: 0; pointer-events: none; }
     .enter-text {
       font-size: 5rem;
       font-weight: bold;
       text-shadow: 0 0 30px rgba(255,255,255,0.8);
       letter-spacing: 6px;
     }
-
-    /* Main content container (centered text) */
     .content {
       position: relative;
       z-index: 4;
@@ -92,23 +82,14 @@
       text-align: center;
       padding: 2rem;
     }
-
-    .content.visible {
-      display: flex;
-    }
-
-    /* Bubbly glowing text in the middle */
+    .content.visible { display: flex; }
     .main-text {
       font-family: 'Fuzzy Bubbles', cursive;
       font-size: 5.8rem;
       font-weight: 700;
       letter-spacing: 4px;
       color: #ffffff;
-      text-shadow: 
-        0 0 15px #fff,
-        0 0 30px #fff,
-        0 0 50px rgba(255,255,255,0.8),
-        0 0 70px rgba(255,255,255,0.5);
+      text-shadow: 0 0 15px #fff, 0 0 30px #fff, 0 0 50px rgba(255,255,255,0.8), 0 0 70px rgba(255,255,255,0.5);
       animation: glowPulse 3.5s infinite ease-in-out;
       line-height: 1.1;
       margin-bottom: 1rem;
@@ -116,29 +97,20 @@
       transform: translateY(30px);
       transition: all 1.8s ease-out;
     }
-
-    .main-text.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .main-text.visible { opacity: 1; transform: translateY(0); }
     .heart {
       font-size: 6.5rem;
       animation: pulseHeart 2s infinite ease-in-out;
       display: inline-block;
     }
-
     @keyframes glowPulse {
       0%, 100% { text-shadow: 0 0 15px #fff, 0 0 30px #fff, 0 0 50px rgba(255,255,255,0.7); }
-      50%      { text-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 90px rgba(255,255,255,0.95); }
+      50% { text-shadow: 0 0 25px #fff, 0 0 50px #fff, 0 0 90px rgba(255,255,255,0.95); }
     }
-
     @keyframes pulseHeart {
       0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.15); }
+      50% { transform: scale(1.15); }
     }
-
-    /* Top-left brand name (same style) */
     .brand-text {
       position: absolute;
       top: 40px;
@@ -147,24 +119,16 @@
       font-weight: 700;
       letter-spacing: 4px;
       color: #ffffff;
-      text-shadow: 
-        0 0 12px #fff,
-        0 0 25px #fff,
-        0 0 40px rgba(255,255,255,0.6);
+      text-shadow: 0 0 12px #fff, 0 0 25px #fff, 0 0 40px rgba(255,255,255,0.6);
       opacity: 0;
       transform: translateY(-20px);
       transition: all 1.5s ease-out;
       z-index: 4;
     }
-
-    .brand-text.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .brand-text.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
-
   <div class="background"></div>
   <div class="pattern-overlay"></div>
 
@@ -189,7 +153,6 @@
 
     overlay.addEventListener('click', () => {
       overlay.classList.add('hidden');
-      
       setTimeout(() => {
         mainContent.classList.add('visible');
         brandText.classList.add('visible');
@@ -197,6 +160,5 @@
       }, 800);
     });
   </script>
-
 </body>
 </html>
