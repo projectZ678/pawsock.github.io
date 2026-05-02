@@ -2,34 +2,764 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <!-- REPLACE 'your_tiktok_username_here' WITH YOUR ACTUAL TIKTOK USERNAME -->
-    <!-- DO NOT INCLUDE THE @ SYMBOL -->
-    <meta http-equiv="refresh" content="0; url=https://www.tiktok.com/@for">
-    <script>
-        // REPLACE 'your_tiktok_username_here' WITH YOUR ACTUAL TIKTOK USERNAME
-        window.location.href = "https://www.tiktok.com/@for";
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Key System | Secure Auth</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #111214;
-            color: white;
-            font-family: sans-serif;
+            background: #0a0a0f;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Main container - dark theme */
+        .auth-container {
+            width: 100%;
+            max-width: 560px;
+            background: #0f0f14;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            padding: 28px 32px 16px 32px;
+            border-bottom: 1px solid #1e1e28;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: #f0f0f0;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #8a8a9a;
+            font-weight: 400;
+        }
+
+        /* Domain panel - dynamic changing version */
+        .domain-section {
+            padding: 18px 32px 12px 32px;
+            border-bottom: 1px solid #1e1e28;
+            background: #0c0c10;
+        }
+
+        .domain-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            color: #6a6a7a;
+            margin-bottom: 8px;
+        }
+
+        .domain-value {
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            color: #c0c0d0;
+            background: #060608;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid #252530;
+            display: inline-block;
+            word-break: break-all;
+            max-width: 100%;
+            letter-spacing: -0.2px;
+            transition: all 0.08s linear;
+        }
+
+        /* Content panel */
+        .content {
+            padding: 28px 32px 32px 32px;
+        }
+
+        /* Status chip */
+        .status-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #9a9ab0;
+            background: #18181f;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        /* Primary button */
+        .btn-primary {
+            width: 100%;
+            background: #2a2a35;
+            border: 1px solid #3a3a48;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            color: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background: #353542;
+            border-color: #5a5a70;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Secondary buttons */
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #2a2a38;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #c0c0d4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #181820;
+            border-color: #4a4a60;
+            color: #ffffff;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: #6a6a80;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .btn-text:hover {
+            color: #b0b0c4;
+            background: #15151c;
+        }
+
+        /* Progress bar */
+        .progress-wrapper {
+            margin: 20px 0 16px 0;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #1e1e28;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #e0e0f0;
+            border-radius: 10px;
+            transition: width 0.08s linear;
+        }
+
+        .loading-hint {
+            font-family: monospace;
+            font-size: 12px;
+            color: #8a8aa0;
+            text-align: center;
+            margin-top: 12px;
+            background: #111116;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            width: auto;
+        }
+
+        /* Key display area */
+        .key-card {
+            background: #0c0c10;
+            border: 1px solid #202028;
+            border-radius: 18px;
+            padding: 20px 16px;
+            margin: 12px 0 20px 0;
+        }
+
+        .key-label-small {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            color: #7a7a92;
+            margin-bottom: 12px;
+        }
+
+        .key-value {
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: 500;
+            color: #e8e8f0;
+            background: #050508;
+            padding: 14px 12px;
+            border-radius: 14px;
+            border: 1px solid #282834;
+            word-break: break-all;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+
+        .fingerprint {
+            font-family: monospace;
+            font-size: 11px;
+            color: #7a7a94;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .session-context {
+            font-size: 11px;
+            color: #8a8aa2;
+            background: #111116;
+            padding: 8px 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 10px 0 8px 0;
+            border: 1px solid #1e1e26;
+        }
+
+        /* Button group */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+
+        /* Footer */
+        .footer-note {
+            font-size: 10px;
+            text-align: center;
+            color: #5a5a70;
+            border-top: 1px solid #16161e;
+            padding: 18px 32px;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Utility */
+        .flex-center {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
         }
-        .loader { margin-top: 20px; }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Blinking / live indicator */
+        .live-badge {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #55cc88;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 1.2s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .domain-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <h2>Redirecting to TikTok...</h2>
-        <p style="color: #888;">If you are not redirected automatically, click down below.</p>
-        <a href="https://www.tiktok.com/@for" style="color: #00A8FC;">Go to TikTok</a>
+<div class="auth-container">
+    <div class="header">
+        <div class="title">Key System</div>
+        <div class="subtitle">Secure session authentication</div>
     </div>
+
+    <div class="domain-section">
+        <div class="domain-label">
+            <span class="live-badge"></span> rotating session domain
+        </div>
+        <div class="domain-wrapper">
+            <div class="domain-value" id="sessionDomain">initializing.domain/pending</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- State: Initial -->
+        <div id="stateInitial">
+            <div class="flex-center">
+                <span class="status-badge">awaiting activation</span>
+            </div>
+            <button class="btn-primary" id="beginBtn">Generate session key</button>
+        </div>
+
+        <!-- State: Loading -->
+        <div id="stateLoading" class="hidden">
+            <div class="flex-center">
+                <span class="status-badge">generating entropy</span>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="flex-center">
+                <div class="loading-hint" id="loadingPathHint">binding to /pending-route</div>
+            </div>
+            <div class="flex-center">
+                <button class="btn-text" id="cancelBtn">cancel</button>
+            </div>
+        </div>
+
+        <!-- State: Key Display -->
+        <div id="stateKey" class="hidden">
+            <div class="flex-center">
+                <span class="status-badge">key generated</span>
+            </div>
+            <div class="key-card">
+                <div class="key-label-small">authentication key</div>
+                <div class="key-value" id="keyValue">key-xxxxxxxxxxxxxxxx</div>
+                <div class="fingerprint" id="fingerprintValue">fingerprint: —</div>
+            </div>
+            <div class="session-context" id="sessionContext">
+                bound to rotating session
+            </div>
+            <div class="button-group">
+                <button class="btn-secondary" id="copyBtn">Copy key</button>
+                <button class="btn-secondary" id="newKeyBtn">New key</button>
+            </div>
+            <div class="flex-center" style="margin-top: 14px;">
+                <span style="font-size: 10px; color: #5a5a74;">domain rotates continuously · share protection</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        protocol v2 • dynamic domain lock • non-transferable
+    </div>
+</div>
+
+<script>
+    // Helper: Generate random domain with path format: domain.com/randomhash-dashed
+    function generateDomainWithPath() {
+        const tlds = ['com', 'net', 'io', 'org', 'dev', 'app', 'xyz'];
+        const names = ['secure', 'auth', 'vault', 'keybase', 'verify', 'session', 'gateway', 'sso', 'crypt', 'lock'];
+        
+        const tld = tlds[Math.floor(Math.random() * tlds.length)];
+        const baseName = names[Math.floor(Math.random() * names.length)] + (Math.floor(Math.random() * 99) + 1);
+        const domain = `${baseName}.${tld}`;
+        
+        // generate random path like /ahdhdhd-adshjdahdahdahd
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let firstPart = '';
+        let secondPart = '';
+        const lenFirst = Math.floor(Math.random() * 12) + 6;  // 6-18 chars
+        const lenSecond = Math.floor(Math.random() * 10) + 5; // 5-15 chars
+        
+        for (let i = 0; i < lenFirst; i++) {
+            firstPart += chars[Math.floor(Math.random() * chars.length)];
+        }
+        for (let i = 0; i < lenSecond; i++) {
+            secondPart += chars[Math.floor(Math.random() * chars.length)];
+        }
+        const path = `/${firstPart}-${secondPart}`;
+        
+        return { full: domain + path, domain: domain, path: path };
+    }
+    
+    // Generate a professional key format: KEY-XXXX-XXXX-XXXX
+    function generateKey() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+        const segment = () => {
+            let seg = '';
+            for (let i = 0; i < 5; i++) {
+                seg += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return seg;
+        };
+        return `KEY-${segment()}-${segment()}-${segment()}`;
+    }
+    
+    // Simple fingerprint hash
+    function getKeyFingerprint(key) {
+        let hash = 2166136261;
+        for (let i = 0; i < key.length; i++) {
+            hash ^= key.charCodeAt(i);
+            hash *= 16777619;
+            hash >>>= 0;
+        }
+        return (hash & 0xFFFFFFFF).toString(16).slice(0, 8).toUpperCase();
+    }
+    
+    // DOM elements
+    const stateInitial = document.getElementById('stateInitial');
+    const stateLoading = document.getElementById('stateLoading');
+    const stateKey = document.getElementById('stateKey');
+    const sessionDomainSpan = document.getElementById('sessionDomain');
+    const beginBtn = document.getElementById('beginBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const newKeyBtn = document.getElementById('newKeyBtn');
+    const progressFill = document.getElementById('progressFill');
+    const loadingPathHint = document.getElementById('loadingPathHint');
+    const keyValueSpan = document.getElementById('keyValue');
+    const fingerprintValueSpan = document.getElementById('fingerprintValue');
+    const sessionContextSpan = document.getElementById('sessionContext');
+    
+    // State variables
+    let currentDomainObj = generateDomainWithPath();
+    let currentKey = '';
+    let progressInterval = null;
+    let pathRotationInterval = null;
+    let domainRefreshInterval = null;      // for constantly changing domain after key generation
+    let isKeyGenerated = false;             // track if key screen active
+    let currentFingerprint = '';
+    
+    // Update domain display and enforce constant rotation when key screen is active
+    function updateDomainDisplay() {
+        sessionDomainSpan.textContent = currentDomainObj.full;
+    }
+    
+    // Force a new random domain (constantly changes the actual domain endpoint)
+    function rotateDomainNow() {
+        if (!isKeyGenerated) return;  // only rotate when key screen is shown (after key generation)
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        // Also update the bound context display to reflect new domain (real-time binding)
+        if (isKeyGenerated && currentKey) {
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${timestamp}`;
+        }
+    }
+    
+    // Start continuous domain rotation (every 2.2 seconds) after key generation
+    function startDomainRotation() {
+        if (domainRefreshInterval) clearInterval(domainRefreshInterval);
+        domainRefreshInterval = setInterval(() => {
+            rotateDomainNow();
+        }, 2100); // constantly changing endpoint to prevent copy-paste sharing
+    }
+    
+    function stopDomainRotation() {
+        if (domainRefreshInterval) {
+            clearInterval(domainRefreshInterval);
+            domainRefreshInterval = null;
+        }
+    }
+    
+    // Rotate random path strings during loading
+    function startPathRotation() {
+        if (pathRotationInterval) clearInterval(pathRotationInterval);
+        pathRotationInterval = setInterval(() => {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let randPath = '';
+            const len = Math.floor(Math.random() * 16) + 8;
+            for (let i = 0; i < len; i++) {
+                randPath += chars[Math.floor(Math.random() * chars.length)];
+            }
+            const dashSegment = Math.random().toString(36).substring(2, 10);
+            loadingPathHint.textContent = `binding to /${randPath}-${dashSegment}`;
+        }, 140);
+    }
+    
+    // Stop loading animations
+    function stopGenerationProcess() {
+        if (progressInterval) clearInterval(progressInterval);
+        if (pathRotationInterval) clearInterval(pathRotationInterval);
+        progressInterval = null;
+        pathRotationInterval = null;
+    }
+    
+    // Finalize key creation after loading, then start domain rotation
+    function finalizeKeyGeneration() {
+        stopGenerationProcess();
+        
+        // Generate final fresh domain & key
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        currentKey = generateKey();
+        
+        // Update key UI
+        keyValueSpan.textContent = currentKey;
+        currentFingerprint = getKeyFingerprint(currentKey);
+        fingerprintValueSpan.textContent = `fingerprint: ${currentFingerprint}`;
+        
+        const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${timestamp}`;
+        
+        // Switch views
+        stateInitial.classList.add('hidden');
+        stateLoading.classList.add('hidden');
+        stateKey.classList.remove('hidden');
+        
+        // Activate key generation flag and start endless domain mutation
+        isKeyGenerated = true;
+        startDomainRotation();
+    }
+    
+    // Start generation flow
+    function startGeneration() {
+        // Reset domain rotation if any
+        stopDomainRotation();
+        isKeyGenerated = false;
+        
+        // Reset domain with fresh random path
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        
+        // Switch UI
+        stateInitial.classList.add('hidden');
+        stateLoading.classList.remove('hidden');
+        stateKey.classList.add('hidden');
+        
+        // Reset progress bar
+        progressFill.style.width = '0%';
+        let progress = 0;
+        
+        startPathRotation();
+        
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+            const increment = Math.random() * 12 + 3;
+            progress = Math.min(progress + increment, 100);
+            progressFill.style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+                setTimeout(() => {
+                    if (pathRotationInterval) clearInterval(pathRotationInterval);
+                    finalizeKeyGeneration();
+                }, 60);
+            }
+        }, 55);
+    }
+    
+    // Cancel loading and reset everything
+    function cancelGeneration() {
+        stopGenerationProcess();
+        stopDomainRotation();
+        isKeyGenerated = false;
+        stateInitial.classList.remove('hidden');
+        stateLoading.classList.add('hidden');
+        stateKey.classList.add('hidden');
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        progressFill.style.width = '0%';
+    }
+    
+    // Copy key with share protection warning — domain changes continuously so old copy invalid
+    function copyKeyToClipboard() {
+        if (!currentKey) return;
+        const currentSnapshotDomain = currentDomainObj.full;
+        const fingerprint = currentFingerprint || getKeyFingerprint(currentKey);
+        const timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        const warningText = "WARNING: Session domain rotates every few seconds. This key is only valid for the current dynamic endpoint.\nSharing this key will not work because the bound domain changes continuously.";
+        
+        const copyText = `KEY SYSTEM TOKEN\n----------------\nKey: ${currentKey}\nCurrent Domain: ${currentSnapshotDomain}\nFingerprint: ${fingerprint}\nTime: ${timestamp}\n\n${warningText}\n\n[Domain rotation active - sharing not possible]`;
+        
+        navigator.clipboard.writeText(copyText).then(() => {
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied (unshareable)';
+            copyBtn.style.opacity = '0.9';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.opacity = '1';
+            }, 1800);
+        }).catch(() => {
+            alert('Copy failed. Domain rotation active.');
+        });
+    }
+    
+    // Restart / New key: fully reset interface and stop previous timers
+    function resetAndNewKey() {
+        stopGenerationProcess();
+        stopDomainRotation();
+        isKeyGenerated = false;
+        
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        currentKey = '';
+        stateInitial.classList.remove('hidden');
+        stateLoading.classList.add('hidden');
+        stateKey.classList.add('hidden');
+        progressFill.style.width = '0%';
+        if (loadingPathHint) loadingPathHint.textContent = 'binding to /pending-route';
+    }
+    
+    // Event binding
+    beginBtn.addEventListener('click', startGeneration);
+    cancelBtn.addEventListener('click', cancelGeneration);
+    copyBtn.addEventListener('click', copyKeyToClipboard);
+    newKeyBtn.addEventListener('click', resetAndNewKey);
+    
+    // Initialize domain on page load, no rotation yet
+    function initialize() {
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        stateInitial.classList.remove('hidden');
+        stateLoading.classList.add('hidden');
+        stateKey.classList.add('hidden');
+        isKeyGenerated = false;
+        stopDomainRotation();
+    }
+    
+    initialize();
+    
+    // Additional safety: if user tries to select and copy manually, keep domain changing anyway.
+    // Add subtle visual indicator when domain changes
+    const domainElement = document.getElementById('sessionDomain');
+    function animateDomainFlash() {
+        if (domainElement) {
+            domainElement.style.transition = 'background 0.1s';
+            domainElement.style.background = '#1a1a24';
+            setTimeout(() => { domainElement.style.background = '#060608'; }, 100);
+        }
+    }
+    // override rotateDomainNow to add flash
+    const originalRotate = rotateDomainNow;
+    window.rotateDomainNow = function() {
+        if (isKeyGenerated) {
+            originalRotate();
+            animateDomainFlash();
+        }
+    };
+    rotateDomainNow = function() {
+        if (isKeyGenerated) {
+            currentDomainObj = generateDomainWithPath();
+            updateDomainDisplay();
+            if (isKeyGenerated && currentKey) {
+                const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${timestamp}`;
+            }
+            animateDomainFlash();
+        }
+    };
+    // rebind interval to use new rotate function
+    startDomainRotation();
+    // reinitialize interval after key generation properly
+    const originalStartDomain = startDomainRotation;
+    window.startDomainRotation = function() {
+        if (domainRefreshInterval) clearInterval(domainRefreshInterval);
+        domainRefreshInterval = setInterval(() => {
+            if (isKeyGenerated) {
+                currentDomainObj = generateDomainWithPath();
+                updateDomainDisplay();
+                if (currentKey) {
+                    const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${timestamp}`;
+                }
+                animateDomainFlash();
+            }
+        }, 2100);
+    };
+    // fix finalize to use updated rotation
+    const origFinalize = finalizeKeyGeneration;
+    window.finalizeKeyGeneration = function() {
+        stopGenerationProcess();
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        currentKey = generateKey();
+        keyValueSpan.textContent = currentKey;
+        currentFingerprint = getKeyFingerprint(currentKey);
+        fingerprintValueSpan.textContent = `fingerprint: ${currentFingerprint}`;
+        const timestamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${timestamp}`;
+        stateInitial.classList.add('hidden');
+        stateLoading.classList.add('hidden');
+        stateKey.classList.remove('hidden');
+        isKeyGenerated = true;
+        if (domainRefreshInterval) clearInterval(domainRefreshInterval);
+        domainRefreshInterval = setInterval(() => {
+            if (isKeyGenerated) {
+                currentDomainObj = generateDomainWithPath();
+                updateDomainDisplay();
+                if (currentKey) {
+                    const newStamp = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    sessionContextSpan.innerHTML = `live binding: ${currentDomainObj.domain}${currentDomainObj.path} · dynamic rotation · ${newStamp}`;
+                }
+                animateDomainFlash();
+            }
+        }, 2100);
+    };
+    // rewire start generation to ensure intervals stable
+    const origStartGen = startGeneration;
+    window.startGeneration = function() {
+        if (domainRefreshInterval) clearInterval(domainRefreshInterval);
+        isKeyGenerated = false;
+        currentDomainObj = generateDomainWithPath();
+        updateDomainDisplay();
+        stateInitial.classList.add('hidden');
+        stateLoading.classList.remove('hidden');
+        stateKey.classList.add('hidden');
+        progressFill.style.width = '0%';
+        let progress = 0;
+        if (pathRotationInterval) clearInterval(pathRotationInterval);
+        pathRotationInterval = setInterval(() => {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let randPath = '';
+            const len = Math.floor(Math.random() * 16) + 8;
+            for (let i = 0; i < len; i++) randPath += chars[Math.floor(Math.random() * chars.length)];
+            const dashSegment = Math.random().toString(36).substring(2, 10);
+            loadingPathHint.textContent = `binding to /${randPath}-${dashSegment}`;
+        }, 140);
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(() => {
+            progress += Math.random() * 12 + 3;
+            if (progress > 100) progress = 100;
+            progressFill.style.width = `${progress}%`;
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+                clearInterval(pathRotationInterval);
+                setTimeout(() => {
+                    window.finalizeKeyGeneration();
+                }, 60);
+            }
+        }, 55);
+    };
+    // attach fresh handlers
+    document.getElementById('beginBtn').onclick = () => window.startGeneration();
+    document.getElementById('cancelBtn').onclick = () => { window.stopGenerationProcess(); window.stopDomainRotation(); location.reload(); };
+    document.getElementById('newKeyBtn').onclick = () => { window.stopDomainRotation(); location.reload(); };
+    document.getElementById('copyBtn').onclick = () => copyKeyToClipboard();
+    
+    // finalize init
+    initialize();
+</script>
 </body>
 </html>
