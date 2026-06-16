@@ -1,0 +1,173 @@
+/* Auth pages — signup & login */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+
+.auth-page::before {
+  content: '';
+  position: fixed;
+  top: -300px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.auth-logo {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(11, 11, 22, 0.85);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-lg), 0 0 80px rgba(124, 58, 237, 0.08);
+}
+
+.auth-card-header {
+  margin-bottom: 32px;
+}
+
+.auth-card-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.auth-card-header p {
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-divider span {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.auth-footer a {
+  color: var(--accent-soft);
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.auth-footer a:hover { color: #c4b5fd; }
+
+/* Username input with availability indicator */
+.username-wrapper {
+  position: relative;
+}
+
+.username-prefix {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--text-3);
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+}
+
+.username-wrapper input {
+  padding-left: 60px;
+}
+
+.username-status {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition);
+}
+
+.username-status.available { color: var(--success); }
+.username-status.taken     { color: var(--error); }
+.username-status.checking  { color: var(--text-3); }
+
+.username-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Password strength */
+.password-strength {
+  margin-top: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+.strength-bar {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background 0.3s ease;
+}
+
+.strength-bar.weak   { background: var(--error); }
+.strength-bar.fair   { background: var(--warning); }
+.strength-bar.strong { background: var(--success); }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 28px 20px; }
+}

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — cxt.lol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+  <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6"  x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <div class="dash-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">cxt.lol</div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Profile</div>
+        <button class="sidebar-item active" data-section="profile" id="nav-profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Edit profile
+        </button>
+        <button class="sidebar-item" data-section="links" id="nav-links">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+          </svg>
+          Social links
+        </button>
+        <button class="sidebar-item" data-section="appearance" id="nav-appearance">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 000 20 10 10 0 000-20z"/>
+            <circle cx="16.5" cy="7.5" r="1.5"/>
+          </svg>
+          Appearance
+        </button>
+
+        <div class="sidebar-section-label" style="margin-top:8px;">Account</div>
+        <button class="sidebar-item" data-section="stats" id="nav-stats">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6"  y1="20" x2="6"  y2="14"/>
+          </svg>
+          Stats
+        </button>
+        <button class="sidebar-item" data-section="settings" id="nav-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+          </svg>
+          Settings
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebar-avatar-el"></div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-username" id="sidebar-username">Loading...</div>
+            <div class="sidebar-uid" id="sidebar-uid"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="dash-main">
+      <header class="dash-topbar">
+        <h2 id="topbar-title">Edit profile</h2>
+        <div class="dash-topbar-actions">
+          <a href="#" id="view-profile-btn" class="btn btn-ghost btn-sm" target="_blank">View profile</a>
+          <button class="btn btn-danger btn-sm" id="logout-btn">Sign out</button>
+        </div>
+      </header>
+
+      <div class="dash-content">
+
+        <!-- ── Profile section ─────────────────────────────────────── -->
+        <section class="dash-section active" id="section-profile">
+          <div class="dash-section-header">
+            <h2>Edit profile</h2>
+            <p>Update how your profile looks to visitors.</p>
+          </div>
+
+          <div id="profile-alert" class="alert" style="margin-bottom:20px;" role="alert"></div>
+
+          <div class="profile-editor">
+            <!-- Avatar -->
+            <div class="editor-card">
+              <div class="editor-card-title">Avatar</div>
+              <div class="avatar-editor">
+                <div class="avatar-preview" id="avatar-preview-el"></div>
+                <div class="avatar-actions">
+                  <label for="avatar-file" class="btn btn-ghost btn-sm" style="cursor:pointer;">Upload image</label>
+                  <input type="file" id="avatar-file" accept="image/*" style="display:none;">
+                  <div class="avatar-hint">JPG, PNG, GIF or WebP &mdash; max 5 MB</div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="avatar-url-input">Or paste image URL</label>
+                <input type="url" id="avatar-url-input" placeholder="https://example.com/photo.jpg">
+              </div>
+            </div>
+
+            <!-- Basic info -->
+            <div class="editor-card">
+              <div class="editor-card-title">Basic info</div>
+              <div style="display:flex;flex-direction:column;gap:16px;">
+                <div class="field">
+                  <label for="display-name">Display name</label>
+                  <input type="text" id="display-name" placeholder="Your name" maxlength="50">
+                </div>
+                <div class="field">
+                  <label for="bio">Bio</label>
+                  <textarea id="bio" rows="3" placeholder="Tell the world a bit about yourself..." maxlength="200"></textarea>
+                  <div class="field-hint"><span id="bio-count">0</span>/200</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Links section ───────────────────────────────────────── -->
+        <section class="dash-section" id="section-links">
+          <div class="dash-section-header">
+            <h2>Social links</h2>
+            <p>Add the platforms you're on — they'll appear on your profile.</p>
+          </div>
+
+          <div id="links-alert" class="alert" style="margin-bottom:20px;" role="alert"></div>
+
+          <div class="editor-card">
+            <div class="editor-card-title">Your links</div>
+            <div class="social-list" id="social-list"></div>
+            <div style="margin-top:4px;">
+              <div class="editor-card-title" style="margin-bottom:12px;border:none;padding:0;">Add platform</div>
+              <div class="add-social-grid" id="add-social-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Appearance section ──────────────────────────────────── -->
+        <section class="dash-section" id="section-appearance">
+          <div class="dash-section-header">
+            <h2>Appearance</h2>
+            <p>Choose a theme and customize your profile's colors.</p>
+          </div>
+
+          <div id="appearance-alert" class="alert" style="margin-bottom:20px;" role="alert"></div>
+
+          <div class="profile-editor">
+            <!-- Theme -->
+            <div class="editor-card">
+              <div class="editor-card-title">Theme</div>
+              <div class="theme-grid" id="theme-grid">
+                <div class="theme-option theme-glass" data-theme="glass">
+                  <div class="theme-option-preview"></div>
+                  <div class="theme-label">Glass</div>
+                </div>
+                <div class="theme-option theme-neon" data-theme="neon">
+                  <div class="theme-option-preview"></div>
+                  <div class="theme-label">Neon</div>
+                </div>
+                <div class="theme-option theme-minimal" data-theme="minimal">
+                  <div class="theme-option-preview"></div>
+                  <div class="theme-label">Minimal</div>
+                </div>
+                <div class="theme-option theme-dark" data-theme="dark">
+                  <div class="theme-option-preview"></div>
+                  <div class="theme-label">Dark</div>
+                </div>
+                <div class="theme-option theme-gradient" data-theme="gradient">
+                  <div class="theme-option-preview"></div>
+                  <div class="theme-label">Gradient</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accent color -->
+            <div class="editor-card">
+              <div class="editor-card-title">Accent color</div>
+              <div class="color-row">
+                <div class="color-swatch">
+                  <input type="color" id="accent-color" value="#7c3aed">
+                </div>
+                <div>
+                  <div style="font-size:14px;font-weight:500;margin-bottom:3px;">Accent color</div>
+                  <div style="font-size:12px;color:var(--text-2);">Used for borders, highlights, and link icons</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Background -->
+            <div class="editor-card">
+              <div class="editor-card-title">Background</div>
+              <div class="bg-type-tabs" id="bg-type-tabs">
+                <button class="bg-type-tab active" data-bg-type="color">Solid</button>
+                <button class="bg-type-tab" data-bg-type="gradient">Gradient</button>
+                <button class="bg-type-tab" data-bg-type="image">Image URL</button>
+              </div>
+              <div id="bg-color-picker" class="color-row">
+                <div class="color-swatch">
+                  <input type="color" id="bg-color" value="#0a0a14">
+                </div>
+                <div style="font-size:13px;color:var(--text-2);">Background color</div>
+              </div>
+              <div id="bg-gradient-picker" style="display:none;">
+                <div class="field">
+                  <label for="bg-gradient">CSS gradient</label>
+                  <input type="text" id="bg-gradient" placeholder="linear-gradient(135deg, #7c3aed, #2563eb)">
+                </div>
+              </div>
+              <div id="bg-image-picker" style="display:none;">
+                <div class="field">
+                  <label for="bg-image">Image URL</label>
+                  <input type="url" id="bg-image" placeholder="https://example.com/bg.jpg">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Stats section ───────────────────────────────────────── -->
+        <section class="dash-section" id="section-stats">
+          <div class="dash-section-header">
+            <h2>Stats</h2>
+            <p>See how your profile is performing.</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-num" id="stat-views">—</div>
+              <div class="stat-card-label">Profile views</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-num" id="stat-links">—</div>
+              <div class="stat-card-label">Social links</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-num" id="stat-uid">—</div>
+              <div class="stat-card-label">Member ID</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-num" id="stat-total">—</div>
+              <div class="stat-card-label">Total members</div>
+            </div>
+          </div>
+
+          <div class="editor-card">
+            <div class="editor-card-title">Your profile link</div>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <code id="profile-link-display" style="flex:1;font-size:14px;color:var(--accent-soft);background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></code>
+              <button class="btn btn-ghost btn-sm" id="copy-link-btn">Copy</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Settings section ────────────────────────────────────── -->
+        <section class="dash-section" id="section-settings">
+          <div class="dash-section-header">
+            <h2>Settings</h2>
+            <p>Manage your account.</p>
+          </div>
+
+          <div class="profile-editor">
+            <div class="editor-card">
+              <div class="editor-card-title">Change password</div>
+              <div id="pw-alert" class="alert" style="margin-bottom:16px;" role="alert"></div>
+              <form id="pw-form" style="display:flex;flex-direction:column;gap:14px;">
+                <div class="field">
+                  <label for="current-pw">Current password</label>
+                  <input type="password" id="current-pw" placeholder="Current password" autocomplete="current-password">
+                </div>
+                <div class="field">
+                  <label for="new-pw">New password</label>
+                  <input type="password" id="new-pw" placeholder="At least 8 characters" autocomplete="new-password">
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary btn-sm" id="pw-btn">Update password</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="editor-card">
+              <div class="editor-card-title">Danger zone</div>
+              <p style="font-size:13.5px;color:var(--text-2);margin-bottom:16px;">Sign out of your current session.</p>
+              <button class="btn btn-danger btn-sm" id="logout-btn-2">Sign out</button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /dash-content -->
+
+      <!-- Save bar -->
+      <div class="save-bar" id="save-bar">
+        <div class="save-bar-text" id="save-status">Unsaved changes</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" id="discard-btn">Discard</button>
+          <button class="btn btn-primary btn-sm" id="save-btn">
+            <span class="spinner" id="save-spinner"></span>
+            <span>Save changes</span>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /dash-main -->
+  </div><!-- /dash-layout -->
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
