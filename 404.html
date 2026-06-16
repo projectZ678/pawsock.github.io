@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found — cxt.lol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .not-found {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      flex-direction: column;
+    }
+    .not-found-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(5rem, 15vw, 10rem);
+      font-weight: 700;
+      letter-spacing: -0.06em;
+      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .not-found h2 {
+      font-size: 1.4rem;
+      color: var(--text-1);
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .not-found p {
+      color: var(--text-2);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="not-found">
+    <div class="not-found-num">404</div>
+    <h2>Page not found</h2>
+    <p>This profile doesn't exist — but yours could.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <a href="/" class="btn btn-ghost">Go home</a>
+      <a href="/signup" class="btn btn-primary">Claim your username</a>
+    </div>
+  </div>
+</body>
+</html>
